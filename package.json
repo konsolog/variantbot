@@ -2,14 +2,18 @@
   "dependencies": {
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
-    "mongodb": "^5.5.0"
+    "mongodb": "^5.5.0",
+    "mysql2": "^3.3.2"
   },
   "name": "variantbot",
   "description": "VariantCraft exclusive moderation bot: Suzune-chan.",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startraw": "node app.js",
+    "deploy": "node deploy-commands.js",
+    "start": "node deploy-commands.js && node app.js"
   },
   "author": "",
   "license": "ISC"
