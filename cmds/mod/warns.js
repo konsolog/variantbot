@@ -25,7 +25,7 @@ module.exports = {
 
         
         connection.query(
-          `INSERT INTO Warns (user, reason) VALUES ('${user.id}', '${reason}')`,
+          `SELECT * FROM Warns WHERE user=${user.id};`,
           function(err, results, fields) {
             console.log(results); // results contains rows returned by server
             console.log(fields); // fields contains extra meta data about results, if available

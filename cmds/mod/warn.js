@@ -23,36 +23,34 @@ module.exports = {
         let reason = interaction.options.getString('reason')
         if (!reason) reason = "No reason provided."
         let user = interaction.options.getUser('target')
-        let strikes = "0"
+        let strikes = 0
 
         const connection = mysql.createConnection(process.env.DATABASE_URL)
         console.log('Connected to DB "Warns"')
 
         
         connection.query(
-          `INSERT INTO Warns (user, reason) VALUES ('${user.id}', '${reason}')`
+          `INSERT INTO Warns (user, reason) VALUES ('${user.id}', '${reason}');`
         )
 
         connection.query(`
-          SELECT COUNT(id) FROM Warns WHERE user=${user.id}
+          SELECT COUNT(id) FROM Warns WHERE user=${user.id};
         `,
         function(err, results, fields) {
-            console.warn(String(results[0]["count(id)"]))
-            strikes = String(results[0]["count(id)"])
+            console.warn(results[Object.values(results)])
+            strikes = results[0]["count(id)"]
           }
         )
-        
-        connection.end()
 		
         try {
             await interaction.reply({content: `<:CHECK:1110605208062525522> User ${user} has been warned for: \n\n${reason}`, ephemeral: false}); 
-            await user.send(`<:WARNING:1110606751696433174> You have been warned in VariantCraft for: \n\n${reason} \n\nYou have received **${strikes} out of 4 strikes**. When you get 4 strikes, you will receive a ban. To appeal a ban, please message one of the admins: <@434608451541401610>, <@826748269354680333>, <@573351641248563202>`)
+            await user.send(`<:WARNING:1110606751696433174> You have been warned in VariantCraft for: \n\n${reason} \n\nYou have received **${strikes} warns**. To appeal one of these warns, please message one of the admins: <@434608451541401610>, <@826748269354680333>, <@573351641248563202>`)
             console.log(`User ${user} has been warned`)
-            if (strikes === 4) {
-              user.ban()
-            }
         } catch (e) {
             console.log(`Could not DM user ${user} about the warn but has been warned. ${e}`)
+            await interaction.editReply({content: `<:CHECK:1110605208062525522> User ${user} has been warned for: \n\n${reason}\n\nBut could not be DMed.`, ephemeral: false}); 
         }
+                
+        connection.end()
 	},
 }
