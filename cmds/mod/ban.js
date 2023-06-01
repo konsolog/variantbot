@@ -13,11 +13,6 @@ module.exports = {
                 .setName("reason")
                 .setDescription("Reason of ban")
                 .setRequired(false))
-        .addIntegerOption(op => op
-            .setName("length")
-            .setDescription("Length of ban (in days) (default to a day)")
-            .setMinValue(0)
-            .setRequired(false))
         .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .setDMPermission(false)
         ,
@@ -25,11 +20,13 @@ module.exports = {
         let reason = interaction.options.getString("reason")
         if (!reason) reason = "No reason provided."
 
-        let member = interaction.options.getUser("target")
+        const member = interaction.options.getUser("target")
         let length = interaction.options.getInteger("length")
         if (!length) length = 1
 
-        member.ban({days: length, reason: reason})
+        console.log(member, member.id)
+
+        member.ban({reason: reason})
 
         interaction.reply(`User ${member} has been banned for reason: ${reason}`)
 	},
