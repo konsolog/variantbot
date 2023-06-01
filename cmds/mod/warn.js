@@ -51,6 +51,7 @@ module.exports = {
             await interaction.editReply({content: `<:CHECK:1110605208062525522> User ${user} has been warned for: \n\n${reason}\n\nBut could not be DMed.`, ephemeral: false}); 
         }
                 
+        if (true !== false)
         connection.end()
 	},
 }
